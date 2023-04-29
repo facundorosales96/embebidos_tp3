@@ -38,25 +38,26 @@ extern "C" {
 
 /* === Public macros definitions =============================================================== */
 #include <stdint.h>
-/**
- * @brief Tamaño del campo
- *
- */
-#define FIELD_SIZE 50
 
 /* === Public data type declarations =========================================================== */
 /**
  * @brief Estructura que representa a un alumno.
  */
-typedef struct alumno_s {
-    char apellido[FIELD_SIZE]; /**< Apellido del alumno. */
-    char nombre[FIELD_SIZE];   /**< Nombre del alumno. */
-    uint32_t documento;        /**< Documento del alumno. */
-} const * alumno_t;
+typedef struct alumno_s * alumno_t;
 
 /* === Public variable declarations ============================================================ */
 
 /* === Public function declarations ============================================================ */
+/**
+ * @brief
+ *
+ * @param apellido Puntero a cadena de caracteres con el apellido del alumno
+ * @param nombre Puntero a cadena de caracteres con el apellido del alumno
+ * @param documento Valor entero del documento del alumno
+ * @return alumno_t retorna un puntero a lugar de memoria
+ */
+alumno_t CrearAlumno(char * apellido, char * nombre, int documento);
+
 /**
  * @brief Serializa un objeto alumno en una cadena de caracteres
  *

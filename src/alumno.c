@@ -23,8 +23,13 @@ SPDX-License-Identifier: MIT
 
 #include "alumno.h"
 #include <stdio.h>
+#include <stdbool.h>
+#include <string.h>
+#include <stdlib.h>
 
 /* === Macros definitions ====================================================================== */
+
+#define FIELD_SIZE 50
 
 /* === Private data type declarations ========================================================== */
 
@@ -39,6 +44,14 @@ static int SerializarNumero();
 
 /* === Private variable definitions ============================================================ */
 
+struct alumno_s {
+
+    char apellido[FIELD_SIZE];
+    char nombre[FIELD_SIZE];
+    uint32_t documento;
+    bool ocupado;
+};
+
 /* === Private function implementation ========================================================= */
 static int SerializarCadena(const char * campo, const char * valor, char * cadena, int espacio) {
     return snprintf(cadena, espacio, "\"%s\":\"%s\",", campo, valor);
@@ -48,6 +61,24 @@ static int SerializarNumero(const char * campo, int valor, char * cadena, int es
     return snprintf(cadena, espacio, "\"%s\":\"%d\",", campo, valor);
 }
 /* === Public function implementation ========================================================== */
+
+alumno_t CrearAlumno(char * apellido, char * nombre, int documento) {
+    alumno_t resultado;
+
+    static struct alumno_s instancias[50];
+    for (int i = 0; i < 50; i++) {
+        if (instancias[i].ocupado == false) {
+            resultado = &instancias[i];
+            instancias[i].ocupado = true;
+            break;
+        }
+    }
+    strcpy(resultado->nombre, nombre);
+    strcpy(resultado->apellido, apellido);
+    resultado->documento = documento;
+
+    return resultado;
+}
 int Serializar(alumno_t alumno, char cadena[], uint32_t espacio) {
     int disponibles = espacio;
     int resultado;
