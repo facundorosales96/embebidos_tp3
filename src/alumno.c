@@ -30,6 +30,7 @@ SPDX-License-Identifier: MIT
 /* === Macros definitions ====================================================================== */
 
 #define FIELD_SIZE 50
+#define DYNAMIC
 
 /* === Private data type declarations ========================================================== */
 
@@ -65,6 +66,9 @@ static int SerializarNumero(const char * campo, int valor, char * cadena, int es
 alumno_t CrearAlumno(char * apellido, char * nombre, int documento) {
     alumno_t resultado;
 
+#ifdef DYNAMIC
+    resultado = malloc(sizeof(struct alumno_s));
+#else
     static struct alumno_s instancias[50];
     for (int i = 0; i < 50; i++) {
         if (instancias[i].ocupado == false) {
@@ -73,12 +77,14 @@ alumno_t CrearAlumno(char * apellido, char * nombre, int documento) {
             break;
         }
     }
+#endif
     strcpy(resultado->nombre, nombre);
     strcpy(resultado->apellido, apellido);
     resultado->documento = documento;
 
     return resultado;
 }
+
 int Serializar(alumno_t alumno, char cadena[], uint32_t espacio) {
     int disponibles = espacio;
     int resultado;
