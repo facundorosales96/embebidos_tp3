@@ -30,7 +30,6 @@ SPDX-License-Identifier: MIT
 /* === Macros definitions ====================================================================== */
 
 #define FIELD_SIZE 50
-#define DYNAMIC
 
 /* === Private data type declarations ========================================================== */
 
@@ -68,8 +67,10 @@ alumno_t CrearAlumno(char * apellido, char * nombre, int documento) {
 
 #ifdef DYNAMIC
     resultado = malloc(sizeof(struct alumno_s));
+    printf("Compilando en memoria Dinamica\n");
 #else
     static struct alumno_s instancias[50];
+    printf("Compilando en memoria Estatica\n");
     for (int i = 0; i < 50; i++) {
         if (instancias[i].ocupado == false) {
             resultado = &instancias[i];
